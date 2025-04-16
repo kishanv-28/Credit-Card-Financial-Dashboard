@@ -1,0 +1,130 @@
+Current_Week_Revenue = 
+VAR CurrentWeek = MAX('public cc_detail'[Week_Num2])
+RETURN
+    CALCULATE(
+        SUM('public cc_detail'[Revenue]),
+        'public cc_detail'[Week_Num2] = CurrentWeek
+    )
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Previous_Week_Revenue = 
+VAR CurrentWeek = MAX('public cc_detail'[Week_Num2])
+VAR PreviousWeek = CurrentWeek - 1
+RETURN
+    CALCULATE(
+        SUM('public cc_detail'[Revenue]),
+        'public cc_detail'[Week_Num2] = PreviousWeek
+    )
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Revenue = 'public cc_detail'[annual_fees]+'public cc_detail'[total_trans_amt]+'public cc_detail'[interest_earned]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Week_Num2 = WEEKNUM('public cc_detail'[week_start_date])
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+WoW_Change = 
+VAR CurrentWeek = MAX('public cc_detail'[Week_Num2])
+VAR PreviousWeek = CurrentWeek - 1
+VAR RevenueCurrent = 
+    CALCULATE(
+        SUM('public cc_detail'[Revenue]),
+        'public cc_detail'[Week_Num2] = CurrentWeek
+    )
+VAR RevenuePrevious = 
+    CALCULATE(
+        SUM('public cc_detail'[Revenue]),
+        'public cc_detail'[Week_Num2] = PreviousWeek
+    )
+RETURN
+    IF(
+        ISBLANK(RevenuePrevious),
+        BLANK(),
+        (RevenueCurrent - RevenuePrevious) / RevenuePrevious
+    )
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+WoW_Change_CustomerCount = 
+VAR CurrentWeek = MAX('public cc_detail'[week_num2])
+VAR PreviousWeek = CurrentWeek - 1
+VAR CustomerCurrent = 
+    CALCULATE(
+        DISTINCTCOUNT('public cc_detail'[client_num]),
+        'public cc_detail'[week_num2] = CurrentWeek
+    )
+VAR CustomerPrevious = 
+    CALCULATE(
+        DISTINCTCOUNT('public cc_detail'[client_num]),
+        'public cc_detail'[week_num2] = PreviousWeek
+    )
+RETURN
+    IF(
+        ISBLANK(CustomerPrevious),
+        BLANK(),
+        (CustomerCurrent - CustomerPrevious) / CustomerPrevious
+    )
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+WoW_Change_TotalTransAmt = 
+VAR CurrentWeek = MAX('public cc_detail'[Week_Num2])
+VAR PreviousWeek = CurrentWeek - 1
+VAR TransAmtCurrent = 
+    CALCULATE(
+        SUM('public cc_detail'[total_trans_amt]),
+        'public cc_detail'[Week_Num2] = CurrentWeek
+    )
+VAR TransAmtPrevious = 
+    CALCULATE(
+        SUM('public cc_detail'[total_trans_amt]),
+        'public cc_detail'[Week_Num2] = PreviousWeek
+    )
+RETURN
+    IF(
+        ISBLANK(TransAmtPrevious),
+        BLANK(),
+        (TransAmtCurrent - TransAmtPrevious) / TransAmtPrevious
+    )
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+WoW_Change_TotalTransCount = 
+VAR CurrentWeek = MAX('public cc_detail'[Week_Num2])
+VAR PreviousWeek = CurrentWeek - 1
+VAR TransCurrent = 
+    CALCULATE(
+        SUM('public cc_detail'[total_trans_ct]),
+        'public cc_detail'[Week_Num2] = CurrentWeek
+    )
+VAR TransPrevious = 
+    CALCULATE(
+        SUM('public cc_detail'[total_trans_ct]),
+        'public cc_detail'[Week_Num2] = PreviousWeek
+    )
+RETURN
+    IF(
+        ISBLANK(TransPrevious),
+        BLANK(),
+        (TransCurrent - TransPrevious) / TransPrevious
+    )
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+AgeGroup = 
+SWITCH(
+    TRUE(),
+    'public cust_detail'[customer_age] < 30, "20-30",
+    'public cust_detail'[customer_age] >= 30 && 'public cust_detail'[customer_age] < 40, "30-40",
+    'public cust_detail'[customer_age] >= 40 && 'public cust_detail'[customer_age] < 50, "40-50",
+    'public cust_detail'[customer_age] >= 50 && 'public cust_detail'[customer_age] < 60, "50-60",
+    'public cust_detail'[customer_age] >= 60, "60+",
+    "unknown"
+)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+IncomeGroup = 
+SWITCH(
+    TRUE(),
+    'public cust_detail'[income] < 35000, "Low",
+    'public cust_detail'[income] >= 35000 && 'public cust_detail'[income] < 70000, "Med",
+    'public cust_detail'[income] >= 70000, "High",
+    "Unknown"
+)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+END.....
