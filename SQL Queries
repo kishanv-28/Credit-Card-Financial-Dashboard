@@ -1,0 +1,7 @@
+Current_Week_Revenue = 
+VAR CurrentWeek = MAX('public cc_detail'[Week_Num2])
+RETURN
+    CALCULATE(
+        SUM('public cc_detail'[Revenue]),
+        'public cc_detail'[Week_Num2] = CurrentWeek
+    )
