@@ -1,12 +1,16 @@
 🧾 Credit Card Company Power BI Dashboard
 
+
 This Power BI dashboard offers deep insights into credit card operations, customer behavior, revenue streams, and business risk across three major analytical tabs. 
 
 It supports real-time decision-making with dynamic KPIs, segmented visuals, and DAX-driven measures.
 
+
+
 📊 Dashboard Overview
 
 Week-on-Week (WoW) Performance Analysis
+
 
 🔍 Key Insights:
 
@@ -15,6 +19,8 @@ Revenue increased by 28.8%,
 Total Transaction Amt & Count increased by 35.04% & 3.39%
 
 Customer count increased by 35%
+
+
 
 🚀 Growth Strategies:
 
@@ -25,7 +31,10 @@ Run educational finance webinars for high-delinquency job segments.
 Introduce WoW-based bonus/reward programs to boost transaction frequency.
 
 
+
+
 Overview YTD (year to date):
+
 
 💰 Overall revenue is 56.5M
 
